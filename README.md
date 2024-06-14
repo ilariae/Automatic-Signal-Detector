@@ -58,19 +58,25 @@ Model 1 performs best with dataset 2 and 3, this is probably due to the unbalanc
 -- Model 2 --
 
 dataset1.txt
+```sh
 210 train samples - 90 test samples
 Validation loss: 1.7094557285308838
 Validation accuracy: 0.7666666507720947
+```
 
 dataset2.txt
+```sh
 244 train samples - 106 test samples
 Validation loss: 0.9224103689193726
 Validation accuracy: 0.8396226167678833
+```
 
 dataset3.txt
+```sh
 210 train samples - 90 test samples
 Validation loss: 1.2521220445632935
 Validation accuracy: 0.7555555701255798
+```
 
 Model 2 performs best with its own dataset. To make it simple, it's probably easier for the model to guess the right letter when one letter has such an high number of pictures compared to the others. There's a lot more probability that it's going to be the letter with the highest number of pictures.
 
@@ -78,19 +84,25 @@ Model 2 performs best with its own dataset. To make it simple, it's probably eas
 -- Model 3 --
 
 dataset1.txt
+```sh
 210 train samples - 90 test samples
 Validation loss: 1.2043957710266113
 Validation accuracy: 0.7888888716697693
+```
 
 dataset2.txt
+```sh
 244 train samples - 106 test samples
 Validation loss: 1.269263744354248
 Validation accuracy: 0.7641509175300598
+```
 
 dataset3.txt
+```sh
 210 train samples - 90 test samples
 Validation loss: 1.8944649696350098
 Validation accuracy: 0.699999988079071
+```
 
 Model 3 performs best with datase 1 and 2.
 
