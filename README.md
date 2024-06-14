@@ -3,7 +3,7 @@ Automatically detect hand gestures using the laptop camera and opencv
 
 Project originally done on google colab, just putting the code also on here. 
 
-##University Computer Vision project 
+## University Computer Vision project 
 
 Below the description of the different tasks implemented.
 
@@ -32,19 +32,25 @@ Dataset 3: 3 letters with equal number of pictures and one of them with no varia
 -- Model 1 --
 
 dataset1.txt
+```sh
 210 train samples - 90 test samples
 Validation loss: 1.4552514553070068
 Validation accuracy: 0.6555555462837219
+```
 
 dataset2.txt
+```sh
 244 train samples - 106 test samples
 Validation loss: 0.9062689542770386
 Validation accuracy: 0.8301886916160583
+```
 
 dataset3.txt
+```sh
 210 train samples - 90 test samples
 Validation loss: 0.669061005115509
 Validation accuracy: 0.8444444537162781
+```
 
 Model 1 performs best with dataset 2 and 3, this is probably due to the unbalanced number of pictures in dataset 2 and lack of variability in dataset 3.
 
