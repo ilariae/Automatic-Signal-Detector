@@ -1,112 +1,135 @@
-# Automatic-Signal-Detector
-Automatically detect hand gestures using the laptop camera and opencv
+# Hand Gesture Letter Recognition
 
-Project originally done on google colab, just putting the code also on here. 
+A computer vision and machine learning project for detecting and classifying hand gestures captured from a laptop camera. The project combines face detection, skin-color-based hand localization, dataset generation, and neural network classification to recognize hand-made letter signs.
 
-## University Computer Vision project 
+This repository contains a university computer vision lab project originally developed in Google Colab and later exported to GitHub for documentation and portfolio purposes.
 
-Below the description of the different tasks implemented.
+## Overview
 
-**Task 1**: In this first task, I identified the face using a Haarcascade over a converted grayscale image. I used a gray image as they have less information to process, improving speed and efficiency compared to detection over a colored image.
-The region of interest is then identified and drawn with the coordinates identified in the detect function. It is important to note that the image is defined from the top left at 0 ,0 to the bottom right.
+The project explores a full pipeline for real-time hand gesture recognition:
 
-**Task 3**: For the third task I am going to use facedetect once to get the face and compute the region of interest. I am then switching to camshift to calculate the hystogram of the face. The algoritmh then calculates on the window where its the most probable to get a face and searches in the region of interest where is the face that has the same distribution.
+1. detect the face in the camera frame,
+2. use the detected face region to estimate a skin-color distribution,
+3. suppress the face region and search for the hand,
+4. capture and preprocess hand images,
+5. build datasets for selected letters,
+6. train MLP models to classify the gestures,
+7. run inference on live camera input.
 
-**Task 4**: In the fourth task the goal is to remove the face so we can detect the hands. I am goin to remove the face from the probability map so the algorithm will look at the picture to find where there is a similar distribution of color as the face and it will find the hands.
+The selected gesture classes in this project are the letters **M**, **N**, and **W**.
 
-**Task 5**: In task 5 the scope is to detect and store the hand as an image in two different sizes: 16x16 and 224x224.
-We start by asking how many pictures you want to take and how many seconds between each picture.
-We continue by actually taking the pictures, cropping them so it takes just the hand and saving them.
+## Main components
 
-**Task 6**: In task 6 we create our dataset, the letters chosen were M, N and W.
+- **Face detection** using a Haar cascade on grayscale images
+- **Region of interest tracking** for identifying relevant areas in the frame
+- **CamShift-based color tracking** to model skin-color distribution
+- **Hand extraction and cropping** from the video feed
+- **Dataset generation** with different class-balance and variability settings
+- **MLP classification** for recognizing hand gesture letters
+- **Live prediction** on camera input
 
-**Task 7**: In task 7 task we build our MLP.
+## Repository contents
 
-Comparison: After training the 3 models we are going to see how each models performs on each dataset.
-Reminder:
-Dataset 1: 3 letters with equal number of pictures and a lot of variability
-Dataset 2: 3 letters with unbalanced number of pictures (50 - 100 -150) and a lot of variability
-Dataset 3: 3 letters with equal number of pictures and one of them with no variability (N)
+- `CompVision_Ilaria.ipynb` — main notebook containing the full project workflow
+- `dataset1.txt`, `dataset2.txt`, `dataset3.txt` — dataset and experiment output logs
+- `model1.json`, `model2.json`, `model3.json` — saved model architectures
+- `model1_weights.h5`, `model2_weights.h5`, `model3_weights.h5` — trained model weights
+- `images/` — image assets or project data used in the notebook
 
----
--- Model 1 --
+## Method
 
-dataset1.txt
-```sh
-210 train samples - 90 test samples
-Validation loss: 1.4552514553070068
-Validation accuracy: 0.6555555462837219
-```
+### 1. Face detection
+The first stage detects the face using a Haar cascade on a grayscale image. Grayscale reduces the amount of information to process and makes detection more efficient than working directly on full-color frames.
 
-dataset2.txt
-```sh
-244 train samples - 106 test samples
-Validation loss: 0.9062689542770386
-Validation accuracy: 0.8301886916160583
-```
+### 2. Face-based color modeling
+After detecting the face, the project uses the face region as a reference area to estimate a skin-color distribution. This information is then used to search for other regions in the frame with similar characteristics.
 
-dataset3.txt
-```sh
-210 train samples - 90 test samples
-Validation loss: 0.669061005115509
-Validation accuracy: 0.8444444537162781
-```
+### 3. Hand localization
+The face region is excluded from the probability map so that the algorithm focuses on locating the hands instead of repeatedly identifying the face.
 
-Model 1 performs best with dataset 2 and 3, this is probably due to the unbalanced number of pictures in dataset 2 and lack of variability in dataset 3.
+### 4. Data collection
+The system captures hand images at user-defined intervals and stores them in multiple sizes, including **16×16** and **224×224**, for later processing and training.
 
----
--- Model 2 --
+### 5. Dataset creation
+Three datasets were created to compare how class balance and variability affect model performance:
 
-dataset1.txt
-```sh
-210 train samples - 90 test samples
-Validation loss: 1.7094557285308838
-Validation accuracy: 0.7666666507720947
-```
+- **Dataset 1**: balanced classes with high variability
+- **Dataset 2**: unbalanced classes (50 / 100 / 150 samples) with high variability
+- **Dataset 3**: balanced classes where one class has low variability
 
-dataset2.txt
-```sh
-244 train samples - 106 test samples
-Validation loss: 0.9224103689193726
-Validation accuracy: 0.8396226167678833
-```
+### 6. Model training
+Three MLP models were trained and evaluated on the datasets to compare their behavior under different data conditions.
 
-dataset3.txt
-```sh
-210 train samples - 90 test samples
-Validation loss: 1.2521220445632935
-Validation accuracy: 0.7555555701255798
-```
+## Results
 
-Model 2 performs best with its own dataset. To make it simple, it's probably easier for the model to guess the right letter when one letter has such an high number of pictures compared to the others. There's a lot more probability that it's going to be the letter with the highest number of pictures.
+### Model 1
 
----
--- Model 3 --
+| Dataset | Train/Test Split | Validation Loss | Validation Accuracy |
+|---|---:|---:|---:|
+| Dataset 1 | 210 / 90 | 1.4553 | 0.6556 |
+| Dataset 2 | 244 / 106 | 0.9063 | 0.8302 |
+| Dataset 3 | 210 / 90 | 0.6691 | 0.8444 |
 
-dataset1.txt
-```sh
-210 train samples - 90 test samples
-Validation loss: 1.2043957710266113
-Validation accuracy: 0.7888888716697693
-```
+**Observation:** Model 1 performs best on Datasets 2 and 3.
 
-dataset2.txt
-```sh
-244 train samples - 106 test samples
-Validation loss: 1.269263744354248
-Validation accuracy: 0.7641509175300598
-```
+### Model 2
 
-dataset3.txt
-```sh
-210 train samples - 90 test samples
-Validation loss: 1.8944649696350098
-Validation accuracy: 0.699999988079071
-```
+| Dataset | Train/Test Split | Validation Loss | Validation Accuracy |
+|---|---:|---:|---:|
+| Dataset 1 | 210 / 90 | 1.7095 | 0.7667 |
+| Dataset 2 | 244 / 106 | 0.9224 | 0.8396 |
+| Dataset 3 | 210 / 90 | 1.2521 | 0.7556 |
 
-Model 3 performs best with datase 1 and 2.
+**Observation:** Model 2 performs best on Dataset 2, likely benefiting from the dominant class distribution.
 
-Task 8: Test phase: for the test phase I am going to use model 1. I show the hand to the camera doing some of the letters with which I trained the model.
-The program finds my hand, generates a gray scale image of the probability of your hand, resize the image to (1,256).
-Pass this image to the loaded model and predict.
-I show the prediction with a text in the video.
+### Model 3
+
+| Dataset | Train/Test Split | Validation Loss | Validation Accuracy |
+|---|---:|---:|---:|
+| Dataset 1 | 210 / 90 | 1.2044 | 0.7889 |
+| Dataset 2 | 244 / 106 | 1.2693 | 0.7642 |
+| Dataset 3 | 210 / 90 | 1.8945 | 0.7000 |
+
+**Observation:** Model 3 performs best on Datasets 1 and 2.
+
+## Test phase
+
+For the live test phase, the project uses **Model 1** for prediction. The system:
+
+1. detects the hand in the camera frame,
+2. generates a grayscale probability image,
+3. reshapes the processed image for model input,
+4. loads the trained model,
+5. predicts the performed letter,
+6. overlays the prediction on the video stream.
+
+## Technologies used
+
+- Python
+- OpenCV
+- NumPy
+- Matplotlib
+- TensorFlow / Keras
+- Google Colab
+
+## Notes on reproducibility
+
+This project was originally developed in **Google Colab** and includes Colab-specific components such as:
+
+- camera capture through browser-side JavaScript,
+- Google Drive mounting,
+- Colab utility imports.
+
+Because of this, the notebook is best understood as a documented academic project and prototype rather than a packaged, fully reproducible local application.
+
+## Limitations
+
+- The implementation is tightly coupled to the Google Colab environment.
+- Only three gesture classes are considered: **M**, **N**, and **W**.
+- The dataset is relatively small and tailored to the project experiment.
+- The repository is focused on demonstrating the pipeline and results rather than production deployment.
+
+## Author
+
+**Ilaria Enache**  
+Computer Vision and Machine Learning Lab project
