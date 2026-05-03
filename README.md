@@ -1,8 +1,8 @@
-# Hand Gesture Letter Recognition
+# Hand Gesture Recognition
 
 A computer vision and machine learning project for detecting and classifying hand gestures captured from a laptop camera. The project combines face detection, skin-color-based hand localization, dataset generation, and neural network classification to recognize hand-made letter signs.
 
-This repository contains a university computer vision lab project originally developed in Google Colab and later exported to GitHub for documentation and portfolio purposes.
+This repository contains a university computer vision lab project originally developed in Google Colab and later organized for GitHub presentation.
 
 ## Overview
 
@@ -28,13 +28,32 @@ The selected gesture classes in this project are the letters **M**, **N**, and *
 - **MLP classification** for recognizing hand gesture letters
 - **Live prediction** on camera input
 
-## Repository contents
+## Repository structure
 
-- `CompVision_Ilaria.ipynb` — main notebook containing the full project workflow
-- `dataset1.txt`, `dataset2.txt`, `dataset3.txt` — dataset and experiment output logs
-- `model1.json`, `model2.json`, `model3.json` — saved model architectures
-- `model1_weights.h5`, `model2_weights.h5`, `model3_weights.h5` — trained model weights
-- `images/` — image assets or project data used in the notebook
+```text
+Automatic-Signal-Detector/
+├── README.md
+├── .gitignore
+├── notebooks/
+│   └── CompVision_Ilaria.ipynb
+├── models/
+│   ├── model1.json
+│   ├── model1_weights.h5
+│   ├── model2.json
+│   ├── model2_weights.h5
+│   ├── model3.json
+│   └── model3_weights.h5
+├── results/
+│   ├── dataset1.txt
+│   ├── dataset2.txt
+│   └── dataset3.txt
+```
+
+## Key files
+
+- `notebooks/CompVision_Ilaria.ipynb` — main notebook containing the full project workflow
+- `results/dataset1.txt`, `results/dataset2.txt`, `results/dataset3.txt` — dataset and experiment output logs
+- `models/` — saved model architectures and trained weights
 
 ## Method
 
@@ -122,14 +141,11 @@ This project was originally developed in **Google Colab** and includes Colab-spe
 
 Because of this, the notebook is best understood as a documented academic project and prototype rather than a packaged, fully reproducible local application.
 
+The full image dataset is stored externally on Google Drive rather than in this repository.
+
 ## Limitations
 
 - The implementation is tightly coupled to the Google Colab environment.
 - Only three gesture classes are considered: **M**, **N**, and **W**.
 - The dataset is relatively small and tailored to the project experiment.
 - The repository is focused on demonstrating the pipeline and results rather than production deployment.
-
-## Author
-
-**Ilaria Enache**  
-Computer Vision and Machine Learning Lab project
